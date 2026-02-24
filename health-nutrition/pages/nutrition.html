@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nutrition – VitaCore</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="app-layout">
+  <aside class="sidebar" data-base="../"></aside>
+  <main class="main-content">
+    <div class="page-header">
+      <div class="page-header-left">
+        <div class="page-eyebrow">NUTRITION</div>
+        <div class="page-title">FOOD & MEALS</div>
+        <div class="page-subtitle">Search foods, log meals, and track your daily macros</div>
+      </div>
+      <div class="page-header-right">
+        <div class="badge badge-green">1840 / 2400 kcal</div>
+        <button class="btn btn-primary btn-sm" onclick="showToast('Nutrition report exported!','info')">📥 Export Report</button>
+      </div>
+    </div>
+
+    <!-- Calorie summary -->
+    <div class="card section-gap">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.2rem">
+        <div>
+          <div style="font-family:var(--font-display);font-size:2.8rem;color:var(--green);line-height:1">1840<span style="font-size:1.2rem;color:var(--muted);font-family:var(--font-body)"> / 2400 kcal</span></div>
+          <div style="font-size:.8rem;color:var(--muted);margin-top:.2rem">77% of daily goal · 560 kcal remaining</div>
+        </div>
+        <div style="display:flex;gap:2.5rem">
+          <div style="text-align:center"><div style="font-family:var(--font-display);font-size:1.5rem;color:var(--green)">142g</div><div style="font-size:.72rem;color:var(--muted)">PROTEIN</div><div style="font-size:.7rem;color:var(--muted2)">180g goal</div></div>
+          <div style="text-align:center"><div style="font-family:var(--font-display);font-size:1.5rem;color:var(--yellow)">216g</div><div style="font-size:.72rem;color:var(--muted)">CARBS</div><div style="font-size:.7rem;color:var(--muted2)">300g goal</div></div>
+          <div style="text-align:center"><div style="font-family:var(--font-display);font-size:1.5rem;color:var(--orange)">52g</div><div style="font-size:.72rem;color:var(--muted)">FAT</div><div style="font-size:.7rem;color:var(--muted2)">70g goal</div></div>
+          <div style="text-align:center"><div style="font-family:var(--font-display);font-size:1.5rem;color:var(--cyan)">28g</div><div style="font-size:.72rem;color:var(--muted)">FIBER</div><div style="font-size:.7rem;color:var(--muted2)">35g goal</div></div>
+        </div>
+      </div>
+      <div style="display:grid;gap:.5rem">
+        <div class="progress-wrap"><div class="progress-label"><span style="color:var(--green)">Protein</span><span>142/180g</span></div><div class="progress-track"><div class="progress-fill green" data-w="79" style="width:0"></div></div></div>
+        <div class="progress-wrap"><div class="progress-label"><span style="color:var(--yellow)">Carbohydrates</span><span>216/300g</span></div><div class="progress-track"><div class="progress-fill yellow" data-w="72" style="width:0"></div></div></div>
+        <div class="progress-wrap"><div class="progress-label"><span style="color:var(--orange)">Fat</span><span>52/70g</span></div><div class="progress-track"><div class="progress-fill orange" data-w="74" style="width:0"></div></div></div>
+      </div>
+    </div>
+
+    <div class="grid-1-2 section-gap">
+      <!-- Meal log -->
+      <div class="card" style="height:fit-content">
+        <div class="section-header">
+          <h3>Today's Meal Log</h3>
+          <div class="badge badge-muted" id="meal-total-badge">1840 kcal</div>
+        </div>
+        <div id="meal-log" class="log-list"></div>
+      </div>
+
+      <!-- Food search -->
+      <div>
+        <div class="card section-gap">
+          <div class="section-header"><h3>🔍 Food Search</h3><div style="font-size:.78rem;color:var(--muted)">500K+ items</div></div>
+          <div style="display:flex;gap:.7rem;margin-bottom:1rem">
+            <input type="text" id="food-search" class="form-control" placeholder="Search food items… (e.g. chicken, rice, banana)" oninput="searchFood()" style="flex:1"/>
+            <button class="btn btn-primary" onclick="searchFood()">Search</button>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem">
+            <span onclick="document.getElementById('food-search').value='chicken';searchFood()" style="cursor:pointer" class="badge badge-muted">🍗 Chicken</span>
+            <span onclick="document.getElementById('food-search').value='rice';searchFood()" style="cursor:pointer" class="badge badge-muted">🍚 Rice</span>
+            <span onclick="document.getElementById('food-search').value='egg';searchFood()" style="cursor:pointer" class="badge badge-muted">🥚 Eggs</span>
+            <span onclick="document.getElementById('food-search').value='fruit';searchFood()" style="cursor:pointer" class="badge badge-muted">🍎 Fruits</span>
+            <span onclick="document.getElementById('food-search').value='';searchFood()" style="cursor:pointer" class="badge badge-green">All</span>
+          </div>
+          <div id="food-results" class="log-list" style="max-height:380px;overflow-y:auto"></div>
+        </div>
+
+        <!-- Nutrition quick add -->
+        <div class="card">
+          <div class="section-header"><h3>Quick Log</h3></div>
+          <div class="form-group">
+            <label class="form-label">Meal Type</label>
+            <select class="form-control" id="quick-meal-type">
+              <option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option><option>Pre-Workout</option><option>Post-Workout</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Food Name</label>
+              <input type="text" class="form-control" id="quick-food-name" placeholder="e.g. Oatmeal"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Calories (kcal)</label>
+              <input type="number" class="form-control" id="quick-kcal" placeholder="350"/>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width:100%" onclick="quickLogMeal()">+ Add to Log</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vitamin & mineral tracker -->
+    <div class="card section-gap">
+      <div class="section-header"><h3>🧪 Micronutrient Tracker</h3><div class="badge badge-muted">Today</div></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem">
+        <div><div class="progress-label" style="margin-bottom:.6rem"><span style="font-size:.8rem">Vitamin C</span><span>72/90mg</span></div><div class="progress-track"><div class="progress-fill green" data-w="80" style="width:0"></div></div></div>
+        <div><div class="progress-label" style="margin-bottom:.6rem"><span style="font-size:.8rem">Vitamin D</span><span>480/600IU</span></div><div class="progress-track"><div class="progress-fill yellow" data-w="80" style="width:0"></div></div></div>
+        <div><div class="progress-label" style="margin-bottom:.6rem"><span style="font-size:.8rem">Calcium</span><span>840/1000mg</span></div><div class="progress-track"><div class="progress-fill cyan" data-w="84" style="width:0"></div></div></div>
+        <div><div class="progress-label" style="margin-bottom:.6rem"><span style="font-size:.8rem">Iron</span><span>12/18mg</span></div><div class="progress-track"><div class="progress-fill orange" data-w="67" style="width:0"></div></div></div>
+        <div><div class="progress-label" style="margin-bottom:.6rem"><span style="font-size:.8rem">Sodium</span><span>1800/2300mg</span></div><div class="progress-track"><div class="progress-fill red" data-w="78" style="width:0"></div></div></div>
+        <div><div class="progress-label" style="margin-bottom:.6rem"><span style="font-size:.8rem">Potassium</span><span>2800/3500mg</span></div><div class="progress-track"><div class="progress-fill green" data-w="80" style="width:0"></div></div></div>
+        <div><div class="progress-label" style="margin-bottom:.6rem"><span style="font-size:.8rem">Magnesium</span><span>280/400mg</span></div><div class="progress-track"><div class="progress-fill purple" data-w="70" style="width:0"></div></div></div>
+        <div><div class="progress-label" style="margin-bottom:.6rem"><span style="font-size:.8rem">Zinc</span><span>9/11mg</span></div><div class="progress-track"><div class="progress-fill cyan" data-w="82" style="width:0"></div></div></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="../js/main.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>
+function quickLogMeal() {
+  const name = document.getElementById('quick-food-name').value;
+  const kcal = parseInt(document.getElementById('quick-kcal').value);
+  const type = document.getElementById('quick-meal-type').value;
+  if (!name || !kcal) { showToast('Please enter food name and calories', 'error'); return; }
+  addMealToLog(name, kcal, '🍽️');
+  document.getElementById('quick-food-name').value = '';
+  document.getElementById('quick-kcal').value = '';
+}
+</script>
+</body>
+</html>

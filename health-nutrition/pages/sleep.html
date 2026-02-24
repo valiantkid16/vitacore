@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sleep Tracker – VitaCore</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="app-layout">
+  <aside class="sidebar" data-base="../"></aside>
+  <main class="main-content">
+    <div class="page-header">
+      <div class="page-header-left">
+        <div class="page-eyebrow">WELLNESS</div>
+        <div class="page-title">SLEEP TRACKER</div>
+        <div class="page-subtitle">Monitor sleep quality, duration, and recovery patterns</div>
+      </div>
+      <div class="page-header-right">
+        <div class="badge badge-purple">😴 Avg 7.2 hrs/night</div>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics-grid metrics-grid-4 section-gap">
+      <div class="card interactive"><div class="card-title">LAST NIGHT</div><div class="card-value" style="color:#a78bfa">7.2<span class="card-unit">hrs</span></div><div class="card-change down">▼ 48 min below 8hr goal</div></div>
+      <div class="card interactive"><div class="card-title">SLEEP QUALITY</div><div class="card-value" style="color:var(--yellow)">78<span class="card-unit">/100</span></div><div class="card-change up">▲ Good quality</div></div>
+      <div class="card interactive"><div class="card-title">WEEKLY AVG</div><div class="card-value" style="color:var(--cyan)">7.4<span class="card-unit">hrs</span></div><div class="card-change neutral">→ Near target</div></div>
+      <div class="card interactive"><div class="card-title">BEST STREAK</div><div class="card-value" style="color:var(--green)">5<span class="card-unit">nights</span></div><div class="card-change up">▲ 8+ hrs streak</div></div>
+    </div>
+
+    <div class="grid-2-1 section-gap">
+      <!-- Weekly chart -->
+      <div class="card">
+        <div class="section-header"><h3>Weekly Sleep Duration</h3><div class="badge badge-purple">Goal: 8 hrs</div></div>
+        <div class="bar-chart-wrap">
+          <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill purple" data-h="90" style="height:0"></div></div><div class="bc-label">Mon<br><span style="font-size:.6rem;color:var(--green)">7.2</span></div></div>
+          <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill purple" data-h="100" style="height:0"></div></div><div class="bc-label">Tue<br><span style="font-size:.6rem;color:var(--green)">8.0</span></div></div>
+          <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill purple" data-h="75" style="height:0"></div></div><div class="bc-label">Wed<br><span style="font-size:.6rem;color:var(--yellow)">6.0</span></div></div>
+          <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill purple" data-h="95" style="height:0"></div></div><div class="bc-label">Thu<br><span style="font-size:.6rem;color:var(--green)">7.6</span></div></div>
+          <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill purple" data-h="85" style="height:0"></div></div><div class="bc-label">Fri<br><span style="font-size:.6rem;color:var(--green)">6.8</span></div></div>
+          <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill purple" data-h="100" style="height:0"></div></div><div class="bc-label">Sat<br><span style="font-size:.6rem;color:var(--green)">8.0</span></div></div>
+          <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill today" data-h="90" style="height:0"></div></div><div class="bc-label" style="color:#a78bfa">Sun<br><span style="font-size:.6rem">7.2</span></div></div>
+        </div>
+        <!-- Sleep phase breakdown -->
+        <div style="margin-top:1.5rem">
+          <div style="font-size:.75rem;color:var(--muted);margin-bottom:.7rem;font-family:var(--font-mono);letter-spacing:2px">LAST NIGHT SLEEP PHASES</div>
+          <div class="sleep-timeline">
+            <div class="sleep-phase" style="width:12%;background:rgba(124,58,237,.8)">Awake</div>
+            <div class="sleep-phase" style="width:22%;background:rgba(124,58,237,.5)">Light</div>
+            <div class="sleep-phase" style="width:35%;background:rgba(124,58,237,.25)">Deep</div>
+            <div class="sleep-phase" style="width:25%;background:rgba(0,212,255,.4)">REM</div>
+            <div class="sleep-phase" style="width:6%;background:rgba(124,58,237,.5)">Light</div>
+          </div>
+          <div style="display:flex;gap:1.2rem;margin-top:.5rem">
+            <span style="font-size:.72rem;color:var(--muted)"><span style="color:#a78bfa">■</span> Awake 52min</span>
+            <span style="font-size:.72rem;color:var(--muted)"><span style="color:rgba(124,58,237,.6)">■</span> Light 1h 36min</span>
+            <span style="font-size:.72rem;color:var(--muted)"><span style="color:rgba(124,58,237,.3)">■</span> Deep 2h 31min</span>
+            <span style="font-size:.72rem;color:var(--muted)"><span style="color:var(--cyan)">■</span> REM 1h 48min</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quality meter -->
+      <div class="card">
+        <div class="section-header"><h3>Sleep Quality Score</h3></div>
+        <div style="text-align:center;padding:1rem 0">
+          <div style="font-family:var(--font-display);font-size:5rem;color:var(--yellow);line-height:1">78</div>
+          <div style="font-size:.85rem;color:var(--muted)">out of 100</div>
+          <div class="badge badge-yellow" style="margin-top:.5rem">Good Quality</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.8rem;margin-top:1rem">
+          <div class="progress-wrap"><div class="progress-label"><span>Duration Score</span><span>7.2/8.0 hrs</span></div><div class="progress-track"><div class="progress-fill purple" data-w="90" style="width:0"></div></div></div>
+          <div class="progress-wrap"><div class="progress-label"><span>Deep Sleep</span><span>2h 31m</span></div><div class="progress-track"><div class="progress-fill green" data-w="80" style="width:0"></div></div></div>
+          <div class="progress-wrap"><div class="progress-label"><span>REM Sleep</span><span>1h 48m</span></div><div class="progress-track"><div class="progress-fill cyan" data-w="75" style="width:0"></div></div></div>
+          <div class="progress-wrap"><div class="progress-label"><span>Consistency</span><span>3/7 on time</span></div><div class="progress-track"><div class="progress-fill yellow" data-w="43" style="width:0"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log + history -->
+    <div class="grid-2 section-gap">
+      <div class="card">
+        <div class="section-header"><h3>Log Sleep</h3></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-control" value="2025-02-24"/></div>
+          <div class="form-group"><label class="form-label">Quality</label><select class="form-control" id="sleep-quality"><option>Poor</option><option>Fair</option><option selected>Good</option><option>Excellent</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Bedtime</label><input type="time" class="form-control" id="sleep-bed" value="22:30"/></div>
+          <div class="form-group"><label class="form-label">Wake Time</label><input type="time" class="form-control" id="sleep-wake" value="05:42"/></div>
+        </div>
+        <div class="form-group"><label class="form-label">Notes</label><textarea class="form-control" placeholder="How rested do you feel? Any disturbances?"></textarea></div>
+        <button class="btn btn-primary" style="width:100%" onclick="logSleep()">✓ Log Sleep</button>
+      </div>
+
+      <div class="card">
+        <div class="section-header"><h3>Sleep History</h3></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date</th><th>Bedtime</th><th>Wake</th><th>Duration</th><th>Quality</th></tr></thead>
+            <tbody>
+              <tr><td>Feb 24</td><td>10:30 PM</td><td>5:42 AM</td><td>7h 12m</td><td><span class="badge badge-yellow">Good</span></td></tr>
+              <tr><td>Feb 23</td><td>10:00 PM</td><td>6:00 AM</td><td>8h 00m</td><td><span class="badge badge-green">Excellent</span></td></tr>
+              <tr><td>Feb 22</td><td>11:30 PM</td><td>5:30 AM</td><td>6h 00m</td><td><span class="badge badge-orange">Fair</span></td></tr>
+              <tr><td>Feb 21</td><td>10:15 PM</td><td>5:51 AM</td><td>7h 36m</td><td><span class="badge badge-yellow">Good</span></td></tr>
+              <tr><td>Feb 20</td><td>9:45 PM</td><td>5:45 AM</td><td>8h 00m</td><td><span class="badge badge-green">Excellent</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sleep tips -->
+    <div class="card section-gap">
+      <div class="section-header"><h3>🌙 Sleep Improvement Tips</h3></div>
+      <div class="grid-3">
+        <div style="padding:1.2rem;background:var(--surface2);border-radius:12px;border:1px solid var(--border)"><div style="font-size:1.5rem;margin-bottom:.5rem">🕙</div><h4 style="margin-bottom:.4rem;font-size:.9rem">Consistent Schedule</h4><p style="font-size:.8rem;color:var(--muted)">Go to bed and wake at the same time every day, including weekends.</p></div>
+        <div style="padding:1.2rem;background:var(--surface2);border-radius:12px;border:1px solid var(--border)"><div style="font-size:1.5rem;margin-bottom:.5rem">📵</div><h4 style="margin-bottom:.4rem;font-size:.9rem">Screen-Free Wind Down</h4><p style="font-size:.8rem;color:var(--muted)">Avoid screens 1 hour before bed. Blue light suppresses melatonin production.</p></div>
+        <div style="padding:1.2rem;background:var(--surface2);border-radius:12px;border:1px solid var(--border)"><div style="font-size:1.5rem;margin-bottom:.5rem">🌡️</div><h4 style="margin-bottom:.4rem;font-size:.9rem">Cool Environment</h4><p style="font-size:.8rem;color:var(--muted)">Keep your bedroom between 18–20°C for optimal deep sleep.</p></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="../js/main.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>
+function logSleep() {
+  const bed = document.getElementById('sleep-bed').value;
+  const wake = document.getElementById('sleep-wake').value;
+  const quality = document.getElementById('sleep-quality').value;
+  showToast(`Sleep logged: ${bed} – ${wake} · Quality: ${quality} 😴`);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hydration – VitaCore</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="app-layout">
+  <aside class="sidebar" data-base="../"></aside>
+  <main class="main-content">
+    <div class="page-header">
+      <div class="page-header-left">
+        <div class="page-eyebrow">HYDRATION</div>
+        <div class="page-title">WATER TRACKER</div>
+        <div class="page-subtitle">Stay hydrated. Track every glass and hit your daily water goal.</div>
+      </div>
+      <div class="page-header-right">
+        <div class="badge badge-cyan"><span class="dot dot-cyan"></span> 1.50L today</div>
+      </div>
+    </div>
+
+    <div class="grid-2 section-gap">
+      <!-- Main water tracker -->
+      <div class="card" style="text-align:center">
+        <div style="margin-bottom:2rem">
+          <div style="font-family:var(--font-display);font-size:5rem;color:var(--cyan);letter-spacing:3px;line-height:1" id="water-big">1.50</div>
+          <div style="font-size:1rem;color:var(--muted)">/ 2.50 L daily goal</div>
+          <div style="margin-top:1.2rem;max-width:300px;margin-left:auto;margin-right:auto">
+            <div class="progress-track" style="height:12px"><div class="progress-fill cyan" data-w="60" style="width:0;height:12px;border-radius:6px"></div></div>
+            <div style="font-size:.78rem;color:var(--muted);margin-top:.4rem">60% of goal · 1.0L remaining</div>
+          </div>
+        </div>
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:1rem;font-family:var(--font-mono);letter-spacing:2px">TAP A GLASS TO LOG 250ML</div>
+        <div class="water-glasses" style="justify-content:center" id="water-glasses-main">
+          <div class="water-glass filled" onclick="toggleWaterMain(0)"><div class="glass-fill"></div></div>
+          <div class="water-glass filled" onclick="toggleWaterMain(1)"><div class="glass-fill"></div></div>
+          <div class="water-glass filled" onclick="toggleWaterMain(2)"><div class="glass-fill"></div></div>
+          <div class="water-glass filled" onclick="toggleWaterMain(3)"><div class="glass-fill"></div></div>
+          <div class="water-glass filled" onclick="toggleWaterMain(4)"><div class="glass-fill"></div></div>
+          <div class="water-glass filled" onclick="toggleWaterMain(5)"><div class="glass-fill"></div></div>
+          <div class="water-glass empty" onclick="toggleWaterMain(6)"><div class="glass-fill"></div></div>
+          <div class="water-glass empty" onclick="toggleWaterMain(7)"><div class="glass-fill"></div></div>
+          <div class="water-glass empty" onclick="toggleWaterMain(8)"><div class="glass-fill"></div></div>
+          <div class="water-glass empty" onclick="toggleWaterMain(9)"><div class="glass-fill"></div></div>
+        </div>
+        <div style="margin-top:2rem;display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="addWaterAmount(250)">+ 250ml</button>
+          <button class="btn btn-secondary" onclick="addWaterAmount(350)">+ 350ml</button>
+          <button class="btn btn-secondary" onclick="addWaterAmount(500)">+ 500ml</button>
+          <button class="btn btn-secondary" onclick="addWaterAmount(750)">+ 750ml</button>
+          <button class="btn btn-danger btn-sm" onclick="resetWater()">Reset</button>
+        </div>
+      </div>
+
+      <!-- Stats & tips -->
+      <div style="display:flex;flex-direction:column;gap:1.2rem">
+        <div class="card">
+          <div class="card-title">TODAY'S STATS</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.8rem">
+            <div style="background:var(--surface2);border-radius:10px;padding:1rem;border:1px solid var(--border)">
+              <div style="font-size:.72rem;color:var(--muted);margin-bottom:.3rem">LOGGED</div>
+              <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--cyan)" id="water-stat-logged">1.50L</div>
+            </div>
+            <div style="background:var(--surface2);border-radius:10px;padding:1rem;border:1px solid var(--border)">
+              <div style="font-size:.72rem;color:var(--muted);margin-bottom:.3rem">REMAINING</div>
+              <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--muted)" id="water-stat-remaining">1.00L</div>
+            </div>
+            <div style="background:var(--surface2);border-radius:10px;padding:1rem;border:1px solid var(--border)">
+              <div style="font-size:.72rem;color:var(--muted);margin-bottom:.3rem">GLASSES</div>
+              <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--cyan)" id="water-stat-glasses">6</div>
+            </div>
+            <div style="background:var(--surface2);border-radius:10px;padding:1rem;border:1px solid var(--border)">
+              <div style="font-size:.72rem;color:var(--muted);margin-bottom:.3rem">PROGRESS</div>
+              <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--green)" id="water-stat-pct">60%</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-header"><h3>Weekly Hydration</h3></div>
+          <div class="bar-chart-wrap" style="height:100px">
+            <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill cyan" data-h="80" style="height:0"></div></div><div class="bc-label">Mon</div></div>
+            <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill cyan" data-h="95" style="height:0"></div></div><div class="bc-label">Tue</div></div>
+            <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill cyan" data-h="70" style="height:0"></div></div><div class="bc-label">Wed</div></div>
+            <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill cyan" data-h="100" style="height:0"></div></div><div class="bc-label">Thu</div></div>
+            <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill cyan" data-h="85" style="height:0"></div></div><div class="bc-label">Fri</div></div>
+            <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill cyan" data-h="55" style="height:0"></div></div><div class="bc-label">Sat</div></div>
+            <div class="bc-col"><div class="bc-bar-track"><div class="bc-bar-fill today" data-h="60" style="height:0"></div></div><div class="bc-label" style="color:var(--cyan)">Today</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">💡 HYDRATION TIPS</div>
+          <div style="display:flex;flex-direction:column;gap:.7rem;margin-top:.5rem">
+            <div style="font-size:.85rem;padding:.7rem;background:rgba(0,212,255,.05);border-radius:8px;border:1px solid rgba(0,212,255,.15)">💧 Drink a glass first thing in the morning to kick-start metabolism</div>
+            <div style="font-size:.85rem;padding:.7rem;background:rgba(0,245,160,.05);border-radius:8px;border:1px solid rgba(0,245,160,.15)">🏃 Add 500ml extra for every 30 min of intense exercise</div>
+            <div style="font-size:.85rem;padding:.7rem;background:rgba(250,204,21,.05);border-radius:8px;border:1px solid rgba(250,204,21,.15)">☀️ Hot weather increases needs — aim for 3L+ on warm days</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log table -->
+    <div class="card section-gap">
+      <div class="section-header"><h3>Today's Log</h3><div class="badge badge-cyan">6 entries · 1.50L</div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Time</th><th>Amount</th><th>Type</th><th>Running Total</th></tr></thead>
+          <tbody>
+            <tr><td>7:00 AM</td><td><span class="badge badge-cyan">250 ml</span></td><td>Water</td><td>0.25 L</td></tr>
+            <tr><td>8:30 AM</td><td><span class="badge badge-cyan">350 ml</span></td><td>Water Bottle</td><td>0.60 L</td></tr>
+            <tr><td>10:15 AM</td><td><span class="badge badge-cyan">250 ml</span></td><td>Water</td><td>0.85 L</td></tr>
+            <tr><td>12:00 PM</td><td><span class="badge badge-cyan">300 ml</span></td><td>With Meal</td><td>1.15 L</td></tr>
+            <tr><td>2:30 PM</td><td><span class="badge badge-cyan">250 ml</span></td><td>Water</td><td>1.40 L</td></tr>
+            <tr><td>4:00 PM</td><td><span class="badge badge-cyan">100 ml</span></td><td>Tea</td><td>1.50 L</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="../js/main.js"></script>
+<script src="../js/sidebar.js"></script>
+<script>
+let totalMl = 1500;
+const goal = 2500;
+function updateWaterUI() {
+  const L = (totalMl/1000).toFixed(2);
+  const rem = Math.max(0, (goal - totalMl)/1000).toFixed(2);
+  const pct = Math.min(100, Math.round(totalMl/goal*100));
+  document.getElementById('water-big').textContent = L;
+  document.getElementById('water-stat-logged').textContent = L + 'L';
+  document.getElementById('water-stat-remaining').textContent = rem + 'L';
+  document.getElementById('water-stat-pct').textContent = pct + '%';
+  document.getElementById('water-stat-glasses').textContent = Math.floor(totalMl/250);
+  const fill = document.querySelector('.progress-fill.cyan');
+  if (fill) fill.style.width = pct + '%';
+}
+function addWaterAmount(ml) {
+  totalMl = Math.min(goal, totalMl + ml);
+  updateWaterUI();
+  showToast(`+${ml}ml logged! Total: ${(totalMl/1000).toFixed(2)}L 💧`, 'info');
+}
+function resetWater() { totalMl = 0; updateWaterUI(); document.querySelectorAll('.water-glass').forEach(g=>g.classList.replace('filled','empty')); showToast('Water log reset', 'info'); }
+function toggleWaterMain(idx) {
+  const glasses = document.querySelectorAll('#water-glasses-main .water-glass');
+  const filled = [...glasses].filter(g=>g.classList.contains('filled')).length;
+  if (idx < filled) { for(let i=idx;i<glasses.length;i++) glasses[i].classList.replace('filled','empty'); }
+  else { for(let i=0;i<=idx;i++) glasses[i].classList.add('filled'); glasses[idx].classList.remove('empty'); }
+  const newFilled = [...glasses].filter(g=>g.classList.contains('filled')).length;
+  totalMl = newFilled * 250;
+  updateWaterUI();
+}
+</script>
+</body>
+</html>

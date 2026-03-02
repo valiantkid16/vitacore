@@ -1,2 +1,0 @@
-# vitacore
-my project
